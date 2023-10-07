@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Send Message to Discord Bot</title>
+  </head>
+  <body>
+    <h1>Send a Message to Me</h1>
+    <form>
+      <label for="message">Enter your message:</label>
+      <input type="text" id="message" name="message" placeholder="Type your message here" required />
+      <br />
+      <button type="submit" id="send-message-btn">Send Message</button>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/discord.js"></script>
+    <script>
+      const form = document.querySelector('form');
+      const messageInput = document.getElementById('message');
+      const sendButton = document.getElementById('send-message-btn');
+
+      const token = 'MTE2MDIxNzM1NzczMDQ1OTY4OA.G-suK0.UMKw0mydIQnFJKZrPHLpbM-3_ipZ2XopXJEQQ8';
+
+      const client = new Discord.Client();
+      client.login(token);
+
+      client.on('ready', () => {
+        console.log('Bot is logged in');
+      });
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const message = messageInput.value;
+
+        const channel = client.channels.cache.get('1156558590480486463');
+        if (!channel) {
+          console.log('Could not find channel');
+          alert('Could not find channel');
+          return;
+        }
+
+        channel.send(message)
+          .then(() => {
+            console.log('Message sent successfully!');
+            alert('Message sent successfully!');
+          })
+          .catch((error) => {
+            console.error(`Error sending message: ${error}`);
+            alert(`Error sending message: ${error}`);
+          });
+      });
+    </script>
+  </body>
+</html>
